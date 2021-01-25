@@ -49,10 +49,14 @@ class CarAdmin(admin.ModelAdmin):
 class OrdersAdmin(admin.ModelAdmin):
     list_display = ['car', 'booth', 'time', 'get_car_type']
 
+    readonly_fields = ('get_car_type',)
+
     fieldsets = [
-        ('Car Details', {'fields': ['car', ]}),
+        ('Car Details', {'fields': ['car', readonly_fields]}),
         ('Order Details', {'fields': ['booth', 'time', 'job_description', 'coupon']}),
     ]
 
     def get_car_type(self, obj):
-        return obj.car.car_type
+        return obj.car.type
+
+    get_car_type.short_description = 'Car Type'
