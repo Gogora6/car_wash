@@ -9,7 +9,7 @@ class Location(models.Model):
     zip_code = models.CharField(max_length=7)
 
     def __str__(self):
-        return f'{self.address.title()}, {self.city.title()}'
+        return f'{self.address}, {self.city}'
 
 
 class Coupon(models.Model):
@@ -54,7 +54,7 @@ class Company(models.Model):
 
     def get_employees_number(self):  # ვიყენებ ადმინ პანელში company-ს სექციაში
 
-        return len(Employee.objects.filter(company=self.pk).all())
+        return Employee.objects.filter(company=self.pk).count()
 
     get_employees_number.short_description = 'Employee Number'
 
@@ -74,7 +74,7 @@ class Employee(models.Model):
                 (today.month, today.day) < (self.birthdate.month, self.birthdate.day))
 
     def __str__(self):
-        return f'{self.name.capitalize()} {self.lastname.capitalize()}  {self.get_age()} წლის '
+        return f'{self.name} {self.lastname}  {self.get_age()} წლის '
 
     class Meta:
         verbose_name = _('Employee')
@@ -95,7 +95,7 @@ class Booth(models.Model):
 
 class Car(models.Model):
     licence_plate = models.CharField(max_length=20)
-    type = models.ForeignKey(to='serviceapp.CarType', on_delete=models.SET_NULL, null=True, related_name='car')
+    car_type = models.ForeignKey(to='serviceapp.CarType', on_delete=models.SET_NULL, null=True, related_name='cars')
 
     def __str__(self):
         return self.licence_plate
@@ -109,8 +109,8 @@ class Orders(models.Model):
     car = models.ForeignKey(to='serviceapp.Car', on_delete=models.CASCADE, related_name='orders')
     booth = models.ForeignKey(to='serviceapp.Booth', on_delete=models.PROTECT, related_name='orders')
     time = models.DateTimeField(verbose_name=_('Scheduled time'))
-    job_description = models.TextField(null=True)
-    coupon = models.ManyToManyField(to='serviceapp.Coupon', related_name='orders')
+    job_description = models.TextField(null=True, blank=True)
+    coupon = models.ManyToManyField(to='serviceapp.Coupon', related_name='orders', null=True, blank=True)
 
     # through არ ვუწერ რადგან არ მინდა CouponToOrder-ში სხვა ველის დამატება
     def __str__(self):

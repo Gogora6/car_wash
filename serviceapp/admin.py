@@ -37,13 +37,22 @@ class CarTypeAdmin(admin.ModelAdmin):
 @admin.register(Booth)
 class BoothAdmin(admin.ModelAdmin):
     list_display = ['number', 'employee', 'available']
+    filter = ('available',)
 
 
 @admin.register(Car)
 class CarAdmin(admin.ModelAdmin):
-    list_display = ['licence_plate', 'type']
+    list_display = ['licence_plate', 'car_type']
 
 
 @admin.register(Orders)
 class OrdersAdmin(admin.ModelAdmin):
-    list_display = ['car', 'booth', 'time']
+    list_display = ['car', 'booth', 'time', 'get_car_type']
+
+    fieldsets = [
+        ('Car Details', {'fields': ['car', ]}),
+        ('Order Details', {'fields': ['booth', 'time', 'job_description', 'coupon']}),
+    ]
+
+    def get_car_type(self, obj):
+        return obj.car.car_type
