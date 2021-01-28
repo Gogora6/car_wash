@@ -90,8 +90,8 @@ class Orders(models.Model):
     time = models.DateTimeField(verbose_name=_('Scheduled time'))
     job_description = models.TextField(null=True, blank=True)
     coupons = models.ManyToManyField(to='serviceapp.Coupon', related_name='orders', blank=True)
-    employee = models.OneToOneField(to='serviceapp.Employee', on_delete=models.SET_NULL, null=True,
-                                    related_name='orders', )
+    employee = models.ForeignKey(to='serviceapp.Employee', on_delete=models.SET_NULL, null=True,
+                                 related_name='orders', )
     price = models.IntegerField()
     created_date = models.DateTimeField(auto_now_add=True)
 
