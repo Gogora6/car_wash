@@ -1,6 +1,5 @@
 from django.utils.translation import ugettext_lazy as _
 from django.db import models
-from datetime import date
 
 
 class Location(models.Model):
@@ -12,8 +11,19 @@ class Location(models.Model):
         return f'{self.address}, {self.city}'
 
 
+class CarType(models.Model):
+    name = models.CharField(max_length=45, verbose_name=_('Car Type'), unique=True)
+    price = models.IntegerField()
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        db_table = 'car_type'
+
+
 class Coupon(models.Model):
-    code = models.CharField(max_length=30)
+    code = models.CharField(max_length=30, unique=True)
     expiration_date = models.DateTimeField(verbose_name=_('Coupon Expiration Date'))
     discount = models.IntegerField(verbose_name=_('Discount percent'))
 
@@ -23,22 +33,6 @@ class Coupon(models.Model):
     class Meta:
         verbose_name = _('Coupon')
         verbose_name_plural = _('Coupons')
-
-    def format_percent(self):
-        return f'{self.discount}$'
-
-    format_percent.short_description = _('Discount')
-
-
-class CarType(models.Model):
-    name = models.CharField(max_length=45, verbose_name=_('Car Type'), unique=True)  # სედანი, ჯიპი, ჰეჩბექი
-    price = models.IntegerField()
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        db_table = 'car_type'
 
 
 class Company(models.Model):
@@ -52,29 +46,19 @@ class Company(models.Model):
         verbose_name = _('Company')
         verbose_name_plural = _('Companies')
 
-    def get_employees_number(self):  # ვიყენებ ადმინ პანელში company-ს სექციაში
-
-        return Employee.objects.filter(company=self.pk).count()
-
-    get_employees_number.short_description = 'Employee Number'
-
 
 class Employee(models.Model):
     company = models.ForeignKey(to='serviceapp.Company', on_delete=models.CASCADE, related_name='employee')
     name = models.CharField(max_length=100)
     lastname = models.CharField(max_length=100)
     birthdate = models.DateField(verbose_name=_('Birth Date'))
+    image = models.CharField(max_length=255)
     salary = models.IntegerField(verbose_name=_('salary ($)'))
     phone_number = models.CharField(max_length=50, verbose_name=_('Phone Number'))
     hire_date = models.DateField()
 
-    def get_age(self):
-        today = date.today()
-        return today.year - self.birthdate.year - (
-                (today.month, today.day) < (self.birthdate.month, self.birthdate.day))
-
     def __str__(self):
-        return f'{self.name} {self.lastname}  {self.get_age()} წლის '
+        return f'{self.name} {self.lastname} '
 
     class Meta:
         verbose_name = _('Employee')
@@ -83,11 +67,6 @@ class Employee(models.Model):
 
 class Booth(models.Model):
     number = models.SmallIntegerField(verbose_name=_('Booth Number'))
-    employee = models.OneToOneField(to='serviceapp.Employee', on_delete=models.SET_NULL, null=True,
-                                    related_name='booth')
-    available = models.BooleanField(default=True)
-
-    # company_id იმიტომ არ ვუწერ რომ Employee ში მაქვს Company-id ია.
 
     def __str__(self):
         return f'Box Number {self.number}'
@@ -110,9 +89,12 @@ class Orders(models.Model):
     booth = models.ForeignKey(to='serviceapp.Booth', on_delete=models.PROTECT, related_name='orders')
     time = models.DateTimeField(verbose_name=_('Scheduled time'))
     job_description = models.TextField(null=True, blank=True)
-    coupon = models.ManyToManyField(to='serviceapp.Coupon', related_name='orders', null=True, blank=True)
+    coupons = models.ManyToManyField(to='serviceapp.Coupon', related_name='orders', blank=True)
+    employee = models.OneToOneField(to='serviceapp.Employee', on_delete=models.SET_NULL, null=True,
+                                    related_name='orders', )
+    price = models.IntegerField()
+    created_date = models.DateTimeField(auto_now_add=True)
 
-    # through არ ვუწერ რადგან არ მინდა CouponToOrder-ში სხვა ველის დამატება
     def __str__(self):
         return self.car.licence_plate
 
@@ -120,6 +102,6 @@ class Orders(models.Model):
         verbose_name = _('Order')
         verbose_name_plural = _('Orders')
 
-# class CouponToOrders(models.Model):
-#     order = models.ForeignKey(to='serviceapp.Orders', on_delete=models.CASCADE, related_name='coupon_to_orders')
-#     coupon = models.ForeignKey(to='serviceapp.Coupon', on_delete=models.CASCADE, related_name='coupon_to_orders')
+    def save(self, *args, **kwargs):
+        self.price = self.car.car_type.price
+        super(Orders, self).save(*args, **kwargs)
