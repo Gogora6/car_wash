@@ -5,11 +5,21 @@
 {% load static %}
 {% block content %}
     <div class="container">
-            <h2 class="section-title text-center wow fadeInDown">{{ employee.name }} {{ employee.lastname }}</h2>
+        <div >
+            <a href='{% url 'employee_detail' employee.id 365 %}' class="btn btn-primary btn-lg active" role="button"
+               aria-pressed="true">1 years data</a>
+            <a href='{% url 'employee_detail' employee.id 31 %}' class="btn btn-primary btn-lg " role="button"
+               aria-pressed="true">1 month data</a>
+            <a href='{% url 'employee_detail' employee.id 6 %}' class="btn btn-primary btn-lg " role="button"
+               aria-pressed="true">1 month data</a>
+        </div>
+
+
+        <h2 class="section-title text-center wow fadeInDown">{{ employee.name }} {{ employee.lastname }}</h2>
         <h4 class="section-title text-center wow fadeInDown">Orders Number: {{ orders.count }}</h4>
 
         <div class="team-img">
-            <img class=" employee-img"  src="{{ employee.image }}" alt="">
+            <img class=" employee-img" src="{{ employee.image }}" alt="">
         </div>
 
         <table class="table table-dark">
