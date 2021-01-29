@@ -1,0 +1,38 @@
+{% extends 'layout.html' %}
+{% block title %} Our Team {% endblock %}
+
+
+{% load static %}
+{% block content %}
+
+    <section id="our-team">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title text-center wow fadeInDown">Experts Team</h2>
+                <p class="text-center wow fadeInDown">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent
+                    eget
+                    risus vitae massa <br> semper aliquam quis mattis quam.</p>
+            </div>
+
+            <div class="row">
+                {% for employee in employees %}
+                    <div class="col-md-3 col-sm-6">
+                        <a href='{% url 'employee_detail' employee.id %}'>
+                            <div class="team-member wow fadeInUp" data-wow-duration="400ms" data-wow-delay="0ms">
+                                <div class="team-img">
+                                    <img class="img-responsive" src="{{ employee.image }}" alt="">
+                                </div>
+                                <div class="team-info">
+                                    <h3>{{ employee.name }} {{ employee.lastname }}</h3>
+                                    <span>Washer</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+
+        </div>
+    </section>
+
+{% endblock %}
