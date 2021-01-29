@@ -1,12 +1,10 @@
 from django.shortcuts import render, HttpResponse
-from .models import Employee
+from .models import Employee, Orders
+import datetime
 
 
 def index(request):
-    data = [[1, 2, 3], [5, 4, 2], (1, 5, 6)]
-    return render(request, template_name='pages/index.html', context={
-        'data': data
-    })
+    return render(request, template_name='pages/index.html')
 
 
 def team(request):
@@ -17,5 +15,11 @@ def team(request):
                   })
 
 
-def employee(request, pk):
-    return HttpResponse(pk)
+def employee(request, pk, filter_day=365):
+    filter_date = datetime.datetime.now() - datetime.timedelta(days=filter_day)
+    orders = Orders.objects.filter(employee=pk, time__gte=filter_date)
+    employee_detail = Employee.objects.filter(pk=pk).first()
+    return render(request, template_name='pages/employee.html', context={
+        'orders': orders,
+        'employee': employee_detail
+    })

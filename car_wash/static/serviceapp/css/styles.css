@@ -1109,3 +1109,12 @@ img.img-responsive {
         padding: 7px 0 0;
     }
 }
+
+.employee-img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 300px;
+    height: 300px;
+    margin-bottom: 50px;
+}

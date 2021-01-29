@@ -1,0 +1,43 @@
+{% extends 'layout.html' %}
+{% block title %} Our Team {% endblock %}
+
+
+{% load static %}
+{% block content %}
+    <div class="container">
+            <h2 class="section-title text-center wow fadeInDown">{{ employee.name }} {{ employee.lastname }}</h2>
+        <h4 class="section-title text-center wow fadeInDown">Orders Number: {{ orders.count }}</h4>
+
+        <div class="team-img">
+            <img class=" employee-img"  src="{{ employee.image }}" alt="">
+        </div>
+
+        <table class="table table-dark">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Car Number</th>
+                <th scope="col">Booth Number</th>
+                <th scope="col">time</th>
+                <th scope="col">Price</th>
+            </tr>
+            </thead>
+            <tbody>
+
+
+            {% for order in orders %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ order.car }}</td>
+                    <td>{{ order.booth }}</td>
+                    <td>{{ order.time }}</td>
+                    <td>{{ order.price }}$</td>
+                </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+    </div>
+
+
+{% endblock %}

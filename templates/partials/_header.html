@@ -11,18 +11,17 @@
                     <span class="icon-bar"></span>
                 </button>
                 <a class="navbar-brand" href="{% url 'index' %}"><img src="{% static 'serviceapp/images/logo.png' %}"
-                                                               alt="logo"></a>
+                                                                      alt="logo"></a>
             </div>
 
             <div class="collapse navbar-collapse navbar-right">
                 <ul class="nav navbar-nav">
-                    <li class="scroll active"><a href="{% url 'index' %}">Home</a></li>
-                    <li class="scroll"><a href="#services">Our Service</a></li>
-                    <li class="scroll"><a href="#about">About Us</a></li>
-                    <li class="scroll"><a href="#portfolio">Gallery</a></li>
+                    <li class="scroll"><a href="{% url 'index' %}">Home</a></li>
+                    <li class="scroll"><a href="{% url 'index' %}">Our Service</a></li>
+                    <li class="scroll"><a href="{% url 'index' %}">About Us</a></li>
                     <li class="scroll"><a href="{% url 'our-team' %}">Team</a></li>
-                    <li class="scroll"><a href="#pricing">Pricing</a></li>
-                    <li class="scroll"><a href="#contact-us">Contact</a></li>
+{#                    <li class="scroll"><a href="{% url 'index' %}">Pricing</a></li>#}
+                    <li class="scroll"><a href="{% url 'index' %}">Contact</a></li>
                 </ul>
             </div>
         </div>

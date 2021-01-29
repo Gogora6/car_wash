@@ -17,7 +17,7 @@
             <div class="row">
                 {% for employee in employees %}
                     <div class="col-md-3 col-sm-6">
-                        <a href='{% url 'employee_detail' employee.id %}'>
+                        <a href='{% url 'employee_detail' employee.id 365 %}'>
                             <div class="team-member wow fadeInUp" data-wow-duration="400ms" data-wow-delay="0ms">
                                 <div class="team-img">
                                     <img class="img-responsive" src="{{ employee.image }}" alt="">
