@@ -1,25 +1,40 @@
 {% extends 'layout.html' %}
-{% block title %} {{ employee.name }} {% endblock %}
+{% block title %} {{ employee.first_name }} {% endblock %}
 
 
 {% load static %}
 {% block content %}
     <div class="container">
-        <div>
-            <a href='{% url 'employee_detail' employee.id 365 %}' class="btn btn-primary btn-lg active" role="button"
-               aria-pressed="true">1 years data</a>
-            <a href='{% url 'employee_detail' employee.id 31 %}' class="btn btn-primary btn-lg " role="button"
-               aria-pressed="true">1 month data</a>
-            <a href='{% url 'employee_detail' employee.id 6 %}' class="btn btn-primary btn-lg " role="button"
-               aria-pressed="true">1 month data</a>
+        <div class="filter-div">
+            <h5 class="text-right wow">Filter date: </h5>
+            <a href='{% url 'employee_detail' employee.id %}?filter=365' id="filter-button"
+               class="btn btn-primary btn-lg active "
+               role="button"
+               aria-pressed="true">1 Years Orders</a>
+            <a href='{% url 'employee_detail' employee.id %}?filter=31' id="filter-button"
+               class="btn btn-primary btn-lg " role="button"
+               aria-pressed="true">1 Month Orders</a>
+            <a href='{% url 'employee_detail' employee.id %}?filter=7' id="filter-button"
+               class="btn btn-primary btn-lg " role="button"
+               aria-pressed="true">1 Week Orders</a>
+
         </div>
 
-
-        <h2 class="section-title text-center wow fadeInDown">{{ employee.name }} {{ employee.lastname }}</h2>
+        {% if '365' == filter_day %}
+            <h4 class="section-title text-center wow fadeInDown">1 Year Orders</h4>
+        {% elif '7' == filter_day %}
+            <h4 class="section-title text-center wow fadeInDown">1 week Orders</h4>
+        {% elif '31' == filter_day %}
+            <h4 class="section-title text-center wow fadeInDown">1 month Orders</h4>
+        {% endif %}
+        <h2 class="section-title text-center wow fadeInDown">{{ employee.first_name }} {{ employee.last_name }}</h2>
         <h4 class="section-title text-center wow fadeInDown">Orders Number: <b>{{ orders.count }}</b></h4>
+        <h4 class="section-title text-center wow fadeInDown">Monthly Salary: <b>{{ employee.salary }} ლ</b></h4>
+        <h4 class="section-title text-center wow fadeInDown">Bonus: <b>{{ bonus_money }} ლ</b></h4>
+
 
         <div class="team-img">
-            <img class=" employee-img" src="{{ employee.image }}" alt="">
+            <img class=" employee-img" src="{{ employee.image.url }}" alt="">
         </div>
 
         <table class="table table-dark">
@@ -40,8 +55,8 @@
                     <th scope="row">{{ forloop.counter }}</th>
                     <td>{{ order.car }}</td>
                     <td>{{ order.booth }}</td>
-                    <td>{{ order.time }}</td>
-                    <td>{{ order.price }}$</td>
+                    <td>{{ order.end_date }}</td>
+                    <td>{{ order.price }}ლ</td>
                 </tr>
             {% endfor %}
 

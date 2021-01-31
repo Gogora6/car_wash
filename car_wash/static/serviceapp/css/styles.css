@@ -1118,3 +1118,14 @@ img.img-responsive {
     height: 300px;
     margin-bottom: 50px;
 }
+
+#filter-button {
+    background-color: #337ab7;
+    border-radius: 4px;
+    padding: 10px 16px;
+}
+
+.filter-div {
+    text-align: right;
+    margin: 20px;
+}

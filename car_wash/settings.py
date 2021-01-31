@@ -99,6 +99,7 @@ USE_TZ = True
 AUTH_USER_MODEL = 'user.User'
 
 STATIC_URL = '/static/'
+
 STATICFILES_DIRS = [
     BASE_DIR / "static",
     'car_wash/static',

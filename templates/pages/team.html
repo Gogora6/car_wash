@@ -8,19 +8,16 @@
     <section id="our-team">
         <div class="container">
             <div class="section-header">
-                <h2 class="section-title text-center wow fadeInDown">Experts Team</h2>
-                <p class="text-center wow fadeInDown">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent
-                    eget
-                    risus vitae massa <br> semper aliquam quis mattis quam.</p>
+                <h2 class="section-title text-center wow fadeInDown">Washer Team</h2>
             </div>
 
             <div class="row">
                 {% for employee in employees %}
                     <div class="col-md-3 col-sm-6">
-                        <a href='{% url 'employee_detail' employee.id 365 %}'>
+                        <a href='{% url 'employee_detail' employee.id  %}'>
                             <div class="team-member wow fadeInUp" data-wow-duration="400ms" data-wow-delay="0ms">
                                 <div class="team-img">
-                                    <img class="img-responsive" src="{{ employee.image }}" alt="">
+                                    <img class="img-responsive" src="{{ employee.image.url }}" alt="">
                                 </div>
                                 <div class="team-info">
                                     <h3>{{ employee.name }} {{ employee.lastname }}</h3>
