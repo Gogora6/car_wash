@@ -1,4 +1,4 @@
-from .models import Car, Company, Coupon, Orders, Location, Booth, Employee, CarType
+from .models import Car, Coupon, Order, Booth, Employee, CarType, WashType
 from django.contrib import admin
 from datetime import date
 
@@ -7,9 +7,9 @@ class EmployeeInline(admin.TabularInline):
     model = Employee
 
 
-@admin.register(Location)
-class LocationAdmin(admin.ModelAdmin):
-    list_display = ('__str__', 'address', 'city', 'zip_code')
+@admin.register(WashType)
+class WashTypeAdmin(admin.ModelAdmin):
+    list_display = ['name', 'percentage']
 
 
 @admin.register(CarType)
@@ -17,20 +17,9 @@ class CarTypeAdmin(admin.ModelAdmin):
     list_display = ['name', 'price']
 
 
-@admin.register(Company)
-class CompanyAdmin(admin.ModelAdmin):
-    list_display = ('name', 'location', 'get_employees_number')
-    inlines = [EmployeeInline, ]
-
-    def get_employees_number(self, obj):
-        return Employee.objects.filter(company=obj.pk).count()
-
-    get_employees_number.short_description = 'Employee Number'
-
-
 @admin.register(Employee)
 class EmployeeAdmin(admin.ModelAdmin):
-    list_display = ['__str__', 'company', 'name', 'phone_number', 'salary', 'get_age', 'hire_date']
+    list_display = ['__str__', 'name', 'phone_number', 'salary', 'get_age', 'hire_date']
 
     def get_age(self, obj):
         today = date.today()
@@ -60,12 +49,13 @@ class CarAdmin(admin.ModelAdmin):
     list_display = ['licence_plate']
 
 
-@admin.register(Orders)
-class OrdersAdmin(admin.ModelAdmin):
-    list_display = ['car', 'booth', 'time']
+@admin.register(Order)
+class OrderAdmin(admin.ModelAdmin):
+    list_display = ['car', 'booth', 'wash_type', 'start_date']
 
     readonly_fields = ('price',)
     fieldsets = [
         ('Car Details', {'fields': ['car']}),
-        ('Order Details', {'fields': ['booth', 'employee', readonly_fields, 'time', 'job_description', 'coupons']}),
+        ('Order Details',
+         {'fields': ['wash_type', 'booth', 'employee', 'start_date', 'end_date', readonly_fields, 'note', 'coupon']}),
     ]

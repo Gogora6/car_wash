@@ -2,18 +2,9 @@ from django.utils.translation import ugettext_lazy as _
 from django.db import models
 
 
-class Location(models.Model):
-    address = models.CharField(max_length=100, unique=True)
-    city = models.CharField(max_length=50)
-    zip_code = models.CharField(max_length=7)
-
-    def __str__(self):
-        return f'{self.address}, {self.city}'
-
-
 class CarType(models.Model):
     name = models.CharField(max_length=45, verbose_name=_('Car Type'), unique=True)
-    price = models.IntegerField()
+    price = models.DecimalField(max_digits=4, decimal_places=2)
 
     def __str__(self):
         return self.name
@@ -25,7 +16,7 @@ class CarType(models.Model):
 class Coupon(models.Model):
     code = models.CharField(max_length=30, unique=True)
     expiration_date = models.DateTimeField(verbose_name=_('Coupon Expiration Date'))
-    discount = models.IntegerField(verbose_name=_('Discount percent'))
+    discount = models.IntegerField(verbose_name=_('Discount'), help_text='%')
 
     def __str__(self):
         return self.code
@@ -35,20 +26,15 @@ class Coupon(models.Model):
         verbose_name_plural = _('Coupons')
 
 
-class Company(models.Model):
-    name = models.CharField(max_length=255, verbose_name=_('Company Name'))
-    location = models.OneToOneField(to='serviceapp.Location', on_delete=models.PROTECT, related_name='company')
+class WashType(models.Model):
+    name = models.CharField(max_length=45, verbose_name=_('Car Type'), unique=True)
+    percentage = models.IntegerField(verbose_name=_("Percentage of base price"), default=100)
 
     def __str__(self):
         return self.name
 
-    class Meta:
-        verbose_name = _('Company')
-        verbose_name_plural = _('Companies')
-
 
 class Employee(models.Model):
-    company = models.ForeignKey(to='serviceapp.Company', on_delete=models.CASCADE, related_name='employee')
     name = models.CharField(max_length=100)
     lastname = models.CharField(max_length=100)
     birthdate = models.DateField(verbose_name=_('Birth Date'))
@@ -84,24 +70,38 @@ class Car(models.Model):
         verbose_name_plural = _('Cars')
 
 
-class Orders(models.Model):
-    car = models.ForeignKey(to='serviceapp.Car', on_delete=models.CASCADE, related_name='orders')
-    booth = models.ForeignKey(to='serviceapp.Booth', on_delete=models.PROTECT, related_name='orders')
-    time = models.DateTimeField(verbose_name=_('Scheduled time'))
-    job_description = models.TextField(null=True, blank=True)
-    coupons = models.ManyToManyField(to='serviceapp.Coupon', related_name='orders', blank=True)
+class Order(models.Model):
+    car = models.ForeignKey(to='serviceapp.Car', on_delete=models.CASCADE, related_name='order')
+    booth = models.ForeignKey(to='serviceapp.Booth', on_delete=models.PROTECT, related_name='order')
+    start_date = models.DateTimeField(verbose_name=_('Scheduled time'))
+    end_date = models.DateTimeField(verbose_name=_('End time'), null=True, blank=True)
+
+    wash_type = models.ForeignKey(
+        to='serviceapp.WashType', related_name='orders',
+        on_delete=models.PROTECT,
+    )
+
+    note = models.TextField(null=True, blank=True, verbose_name=_('Note'))
+
+    coupon = models.ForeignKey(
+        to='serviceapp.Coupon', related_name='orders',
+        on_delete=models.PROTECT,
+        null=True, blank=True,
+    )
     employee = models.ForeignKey(to='serviceapp.Employee', on_delete=models.SET_NULL, null=True,
-                                 related_name='orders', )
+                                 related_name='order', )
+
     price = models.IntegerField()
     created_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.car.licence_plate
+        return f'{self.car} using {self.wash_type}'
 
     class Meta:
         verbose_name = _('Order')
         verbose_name_plural = _('Orders')
 
     def save(self, *args, **kwargs):
-        self.price = self.car.car_type.price
-        super(Orders, self).save(*args, **kwargs)
+        if not self.pk:
+            self.price = self.car.car_type.price * self.wash_type.percentage / 100
+        super(Order, self).save(*args, **kwargs)
