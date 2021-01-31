@@ -1,10 +1,5 @@
-from .models import Car, Coupon, Order, Booth, Employee, CarType, WashType
+from .models import Car, Coupon, Order, Booth, CarType, WashType
 from django.contrib import admin
-from datetime import date
-
-
-class EmployeeInline(admin.TabularInline):
-    model = Employee
 
 
 @admin.register(WashType)
@@ -15,18 +10,6 @@ class WashTypeAdmin(admin.ModelAdmin):
 @admin.register(CarType)
 class CarTypeAdmin(admin.ModelAdmin):
     list_display = ['name', 'price']
-
-
-@admin.register(Employee)
-class EmployeeAdmin(admin.ModelAdmin):
-    list_display = ['__str__', 'name', 'phone_number', 'salary', 'get_age', 'hire_date']
-
-    def get_age(self, obj):
-        today = date.today()
-        return today.year - obj.birthdate.year - (
-                (today.month, today.day) < (obj.birthdate.month, obj.birthdate.day))
-
-    get_age.short_description = 'Age'
 
 
 @admin.register(Coupon)

@@ -34,23 +34,6 @@ class WashType(models.Model):
         return self.name
 
 
-class Employee(models.Model):
-    name = models.CharField(max_length=100)
-    lastname = models.CharField(max_length=100)
-    birthdate = models.DateField(verbose_name=_('Birth Date'))
-    image = models.CharField(max_length=255)
-    salary = models.IntegerField(verbose_name=_('salary ($)'))
-    phone_number = models.CharField(max_length=50, verbose_name=_('Phone Number'))
-    hire_date = models.DateField()
-
-    def __str__(self):
-        return f'{self.name} {self.lastname} '
-
-    class Meta:
-        verbose_name = _('Employee')
-        verbose_name_plural = _('Employees')
-
-
 class Booth(models.Model):
     number = models.SmallIntegerField(verbose_name=_('Booth Number'))
 
@@ -60,7 +43,11 @@ class Booth(models.Model):
 
 class Car(models.Model):
     licence_plate = models.CharField(max_length=20)
-    car_type = models.ForeignKey(to='serviceapp.CarType', on_delete=models.SET_NULL, null=True, related_name='cars')
+    car_type = models.ForeignKey(
+        to='serviceapp.CarType',
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name='cars')
 
     def __str__(self):
         return self.licence_plate
@@ -71,13 +58,17 @@ class Car(models.Model):
 
 
 class Order(models.Model):
-    car = models.ForeignKey(to='serviceapp.Car', on_delete=models.CASCADE, related_name='order')
+    car = models.ForeignKey(
+        to='serviceapp.Car',
+        on_delete=models.CASCADE,
+        related_name='order')
     booth = models.ForeignKey(to='serviceapp.Booth', on_delete=models.PROTECT, related_name='order')
     start_date = models.DateTimeField(verbose_name=_('Scheduled time'))
     end_date = models.DateTimeField(verbose_name=_('End time'), null=True, blank=True)
 
     wash_type = models.ForeignKey(
-        to='serviceapp.WashType', related_name='orders',
+        to='serviceapp.WashType',
+        related_name='orders',
         on_delete=models.PROTECT,
     )
 
@@ -88,8 +79,11 @@ class Order(models.Model):
         on_delete=models.PROTECT,
         null=True, blank=True,
     )
-    employee = models.ForeignKey(to='serviceapp.Employee', on_delete=models.SET_NULL, null=True,
-                                 related_name='order', )
+    employee = models.ForeignKey(
+        to='user.User',
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name='order')
 
     price = models.IntegerField()
     created_date = models.DateTimeField(auto_now_add=True)
