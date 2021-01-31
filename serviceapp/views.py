@@ -23,6 +23,7 @@ def employee(request, pk):
     employee_detail = get_object_or_404(User, pk=pk)
 
     filter_day = request.GET.get('filter')
+
     if filter_day:
         filter_date = datetime.datetime.now() - datetime.timedelta(days=int(filter_day))
         orders = Order.objects.filter(employee=pk, start_date__gte=filter_date).all()
@@ -35,6 +36,7 @@ def employee(request, pk):
         bonus = sum_prices * employee_detail.share / 100
     else:
         bonus = 0
+
     return render(request, template_name='pages/employee.html', context={
         'orders': orders,
         'employee': employee_detail,

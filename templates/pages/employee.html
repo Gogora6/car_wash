@@ -5,19 +5,28 @@
 {% load static %}
 {% block content %}
     <div class="container">
-        <div class="filter-div">
-            <h5 class="text-right wow">Filter date: </h5>
-            <a href='{% url 'employee_detail' employee.id %}?filter=365' id="filter-button"
-               class="btn btn-primary btn-lg active "
-               role="button"
-               aria-pressed="true">1 Years Orders</a>
-            <a href='{% url 'employee_detail' employee.id %}?filter=31' id="filter-button"
-               class="btn btn-primary btn-lg " role="button"
-               aria-pressed="true">1 Month Orders</a>
-            <a href='{% url 'employee_detail' employee.id %}?filter=7' id="filter-button"
-               class="btn btn-primary btn-lg " role="button"
-               aria-pressed="true">1 Week Orders</a>
-
+{#        <div class="filter-div">#}
+{#            <h5 class="text-right wow">Filter date: </h5>#}
+{#            <a href='{% url 'employee_detail' employee.id %}?filter=365' id="filter-button"#}
+{#               class="btn btn-primary btn-lg active "#}
+{#               role="button"#}
+{#               aria-pressed="true">1 Years Orders</a>#}
+{#            <a href='{% url 'employee_detail' employee.id %}?filter=31' id="filter-button"#}
+{#               class="btn btn-primary btn-lg " role="button"#}
+{#               aria-pressed="true">1 Month Orders</a>#}
+{#            <a href='{% url 'employee_detail' employee.id %}?filter=7' id="filter-button"#}
+{#               class="btn btn-primary btn-lg " role="button"#}
+{#               aria-pressed="true">1 Week Orders</a>#}
+{##}
+{#        </div>#}
+        <div class="dropdown">
+            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Filter orders
+                <span class="caret"></span></button>
+            <ul class="dropdown-menu">
+                <li><a href="{% url 'employee_detail' employee.id %}?filter=7">1 Week Orders</a></li>
+                <li><a href="{% url 'employee_detail' employee.id %}?filter=31">1 Month Orders</a></li>
+                <li><a href="{% url 'employee_detail' employee.id %}?filter=365">1 Year Orders</a></li>
+            </ul>
         </div>
 
         {% if '365' == filter_day %}
