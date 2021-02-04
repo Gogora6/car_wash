@@ -12,15 +12,15 @@
             </div>
 
             <div class="row">
-                {% for employee in employees %}
+                {% for washer in washers %}
                     <div class="col-md-3 col-sm-6">
-                        <a href='{% url 'employee_detail' employee.id  %}'>
+                        <a href='{% url 'wash:washer_detail' washer.id  %}'>
                             <div class="team-member wow fadeInUp" data-wow-duration="400ms" data-wow-delay="0ms">
                                 <div class="team-img">
-                                    <img class="img-responsive" src="{{ employee.image.url }}" alt="">
+                                    <img class="img-responsive" src="{{ washer.image.url }}" alt="">
                                 </div>
                                 <div class="team-info">
-                                    <h3>{{ employee.name }} {{ employee.lastname }}</h3>
+                                    <h3>{{ washer.name }} {{ washer.lastname }}</h3>
                                     <span>Washer</span>
                                 </div>
                             </div>

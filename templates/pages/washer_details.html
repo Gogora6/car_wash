@@ -9,10 +9,10 @@
             <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Filter orders
                 <span class="caret"></span></button>
             <ul class="dropdown-menu">
-                <li><a href="{% url 'employee_detail' employee.id %}?filter=7">1 Week Orders</a></li>
-                <li><a href="{% url 'employee_detail' employee.id %}?filter=31">1 Month Orders</a></li>
-                <li><a href="{% url 'employee_detail' employee.id %}?filter=365">1 Year Orders</a></li>
-                <li><a href="{% url 'employee_detail' employee.id %}">Clear filters</a></li>
+                <li><a href="{% url 'wash:washer_detail' washer.id %}?filter=7">1 Week Orders</a></li>
+                <li><a href="{% url 'wash:washer_detail' washer.id %}?filter=31">1 Month Orders</a></li>
+                <li><a href="{% url 'wash:washer_detail' washer.id %}?filter=365">1 Year Orders</a></li>
+                <li><a href="{% url 'wash:washer_detail' washer.id %}">Clear filters</a></li>
 
             </ul>
         </div>
@@ -24,14 +24,14 @@
         {% elif '31' == filter_day %}
             <h4 class="section-title text-center wow fadeInDown">1 month Orders</h4>
         {% endif %}
-        <h2 class="section-title text-center wow fadeInDown">{{ employee.first_name }} {{ employee.last_name }}</h2>
+        <h2 class="section-title text-center wow fadeInDown">{{ washer.first_name }} {{ washer.last_name }}</h2>
         <h4 class="section-title text-center wow fadeInDown">Orders Number: <b>{{ orders.count }}</b></h4>
-        <h4 class="section-title text-center wow fadeInDown">Monthly Salary: <b>{{ employee.salary }} ლ</b></h4>
+        <h4 class="section-title text-center wow fadeInDown">Monthly Salary: <b>{{ washer.salary }} ლ</b></h4>
         <h4 class="section-title text-center wow fadeInDown">Bonus: <b>{{ bonus_money }} ლ</b></h4>
 
 
         <div class="team-img">
-            <img class=" employee-img" src="{{ employee.image.url }}" alt="">
+            <img class=" employee-img" src="{{ washer.image.url }}" alt="">
         </div>
 
         <table class="table table-dark">

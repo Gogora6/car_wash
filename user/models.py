@@ -1,3 +1,5 @@
+from datetime import date
+
 from django.contrib.auth.base_user import BaseUserManager
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import AbstractUser
@@ -63,6 +65,11 @@ class User(AbstractUser):
 
     def __str__(self):
         return self.get_full_name()
+
+    def get_age(self):
+        today = date.today()
+        return today.year - self.birthdate.year - (
+                (today.month, today.day) < (self.birthdate.month, self.birthdate.day))
 
     class Meta:
         verbose_name = _('Employee')

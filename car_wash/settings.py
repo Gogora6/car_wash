@@ -105,5 +105,6 @@ STATICFILES_DIRS = [
     'car_wash/static',
 ]
 
+
 MEDIA_ROOT = 'media'
 MEDIA_URL = '/media/'
