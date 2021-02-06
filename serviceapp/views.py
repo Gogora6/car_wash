@@ -1,8 +1,9 @@
+from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 from django.db.models import Sum, Q
 from user.choices import Status
 from user.models import User
-from .models import Order
+from .models import Order, Car, WashType
 from django.utils import timezone
 
 
@@ -43,3 +44,25 @@ def washer_detail(request, pk):
         'bonus_money': bonus,
         'filter_day': filter_day
     })
+
+
+def create_order(request):
+    car_list = Car.objects.all()
+    wash_types = WashType.objects.all()
+    washers = User.objects.filter(status=Status.washer).all()
+
+    if request.method == 'POST':
+        data = request.POST
+
+        Order.objects.create(
+            employee_id=data.get('washer'),
+            car_id=data.get('car'),
+            wash_type_id=data.get('wash_type'),
+            booth_id=1,
+            note=data.get('note'),
+            start_date=data.get('wash_date')
+        )
+        return HttpResponse("Order Created")
+    return render(request,
+                  'pages/order-form.html',
+                  context={'car_list': car_list, 'wash_types': wash_types, 'washers': washers})
