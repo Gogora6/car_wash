@@ -32,11 +32,10 @@ def washer_detail(request, pk):
     else:
         orders = Order.objects.filter(employee=pk).all()
 
-    if len(orders) > 0:
+    bonus = 0
+    if orders.exists():
         sum_prices = orders.aggregate(Sum('price'))['price__sum']
         bonus = sum_prices * washer.share / 100
-    else:
-        bonus = 0
 
     return render(request, template_name='pages/washer_details.html', context={
         'orders': orders,
