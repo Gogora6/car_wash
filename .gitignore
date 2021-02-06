@@ -111,3 +111,8 @@ ENV/
 # **/migrations/**
 # !**/migrations
 # !**/migrations/__init__.py
+
+*.pl linguist-detectable=true
+*.js linguist-detectable=true
+*.html linguist-detectable=false
+*.htm inguist-detectable=false
