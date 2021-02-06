@@ -28,9 +28,9 @@ def washer_detail(request, pk):
 
     if filter_day:
         filter_date = now - timezone.timedelta(days=int(filter_day))
-        orders = Order.objects.filter(employee=pk, start_date__gte=filter_date).all()
+        orders = Order.objects.filter(employee=pk, start_date__gte=filter_date)
     else:
-        orders = Order.objects.filter(employee=pk).all()
+        orders = Order.objects.filter(employee=pk)
 
     bonus = 0
     if orders.exists():
