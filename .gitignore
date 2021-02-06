@@ -116,5 +116,5 @@ ENV/
 *.js linguist-detectable=true
 *.html linguist-detectable=false
 *.htm inguist-detectable=false
-*.css linguist-detectable=false
+*.css linguist-detectable=true
 
