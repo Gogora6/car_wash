@@ -14,7 +14,7 @@
                 <div class="wrap-input100 input100-select">
                     <span class="label-input100">Car</span>
                     <div>
-                        <select class="selection-2" name="car">
+                        <select class="form-control" name="car">
                             <option>Select Car</option>
 
                             {% for car in car_list %}
@@ -28,7 +28,7 @@
                 <div class="wrap-input100 input100-select">
                     <span class="label-input100">Wash Type</span>
                     <div>
-                        <select class="selection-2" name="wash_type">
+                        <select class="form-control" name="wash_type">
                             <option>Select Wash Type</option>
                             {% for wash_type in wash_types %}
                                 <option value="{{ wash_type.pk }}">{{ wash_type.name }}</option>
@@ -40,7 +40,7 @@
                 <div class="wrap-input100 input100-select">
                     <span class="label-input100">Washer</span>
                     <div>
-                        <select class="selection-2" name="washer">
+                        <select class="form-control" name="washer">
                             <option>Select Washer</option>
                             {% for washer in washers %}
                                 <option value="{{ washer.pk }}">{{ washer }}</option>

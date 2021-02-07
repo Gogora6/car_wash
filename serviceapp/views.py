@@ -53,7 +53,6 @@ def create_order(request):
 
     if request.method == 'POST':
         data = request.POST
-
         Order.objects.create(
             employee_id=data.get('washer'),
             car_id=data.get('car'),
