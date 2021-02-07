@@ -42,6 +42,7 @@
                 <th scope="col">Booth Number</th>
                 <th scope="col">time</th>
                 <th scope="col">Price</th>
+                <th scope="col">Details</th>
             </tr>
             </thead>
             <tbody>
@@ -54,6 +55,9 @@
                     <td>{{ order.booth }}</td>
                     <td>{{ order.end_date }}</td>
                     <td>{{ order.price }}ლ</td>
+                    <td><a href="{% url 'wash:order_detail' order.pk %}" class="btn ">Order Details</a></td>
+
+                    <th>
                 </tr>
             {% endfor %}
 

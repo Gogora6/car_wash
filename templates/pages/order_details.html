@@ -1,0 +1,30 @@
+{% extends 'layout.html' %}
+{% block title %} {{ employee.first_name }} {% endblock %}
+
+
+{% load static %}
+{% block content %}
+    <div class="container">
+
+
+        <h1 class="section-title text-center wow fadeInDown">Order Details</h1>
+        <br>
+        <p class="h4 text-center">Car Licence Plate: <b>{{ order.car.licence_plate }}</b></p>
+        <p class="h4 text-center">Car Type: <b>{{ order.car.car_type }}</b></p>
+        <br>
+        <p class="h4 text-center">Car Wash Type: <b>{{ order.wash_type }}</b></p>
+        <p class="h4 text-center">Wash Price: <b>{{ order.price }} GEL</b></p>
+        <p class="h4 text-center">Note: <b>{{ order.note }} </b></p>
+        <br>
+        <p class="h4 text-center">Start Date: <b>{{ order.start_date }} </b></p>
+        <p class="h4 text-center">End Date: <b>{{ order.end_date|default:'Not Finished.' }} </b></p>
+        <br>
+        <p class="h4 text-center">Washer Name: <a
+                href="{% url 'wash:washer_detail' order.employee.id %}"><b>{{ order.employee }} </b></a></p>
+        <br>
+
+
+    </div>
+
+
+{% endblock %}
