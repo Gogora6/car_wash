@@ -8,6 +8,8 @@ from .models import Order, Car, WashType
 from user.choices import Status
 from user.models import User
 
+from .forms import OrderForm
+
 
 def index(request: WSGIRequest) -> HttpResponse:
     return render(request, template_name='pages/index.html')
@@ -57,21 +59,15 @@ def order_detail(request: WSGIRequest, pk: int) -> HttpResponse:
 
 
 def create_order(request: WSGIRequest) -> HttpResponse:
-    car_list = Car.objects.all()
-    wash_types = WashType.objects.all()
-    washers = User.objects.filter(status=Status.washer).all()
-
+    order_form = OrderForm()
     if request.method == 'POST':
-        data = request.POST
-        new_order = Order.objects.create(
-            employee_id=data.get('washer'),
-            car_id=data.get('car'),
-            wash_type_id=data.get('wash_type'),
-            booth_id=1,
-            note=data.get('note'),
-            start_date=data.get('wash_date')
-        )
-        return redirect('wash:order_detail', new_order.pk)
+        order_form = OrderForm(request.POST)
+        if order_form.is_valid():
+            order: Order = order_form.save(commit=False)
+            order.booth_id = 1
+            order.save()
+            return redirect('wash:order_detail', order.pk)
+
     return render(request,
                   'pages/order-form.html',
-                  context={'car_list': car_list, 'wash_types': wash_types, 'washers': washers})
+                  context={'form': order_form})

@@ -7,5 +7,5 @@ urlpatterns = [
     path('washers/', washer_list, name='washers'),
     path('<int:pk>/washer/', washer_detail, name='washer_detail'),
     path('order/create', create_order, name='create_order'),
-    path('<int:pk>/order/', order_detail, name='order_detail')
+    path('<int:pk>/order/', order_detail, name='order_detail'),
 ]
