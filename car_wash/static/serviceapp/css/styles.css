@@ -91,14 +91,13 @@ p {
 }
 
 .btn.btn-primary {
-    background: #f92222;
     color: #FFFFFF;
     padding: 10px 20px;
 }
 
 .btn.btn-primary:hover,
 .btn.btn-primary:focus {
-    background: #de4811;
+    /*background: #de4811;*/
 }
 
 .column-title {
@@ -1128,4 +1127,13 @@ img.img-responsive {
 .filter-div {
     text-align: right;
     margin: 20px;
+}
+
+.card-margin {
+    margin-bottom: 40px;
+}
+
+.background-red {
+    background: #f92222;
+
 }

@@ -1,0 +1,49 @@
+{% extends 'layout.html' %}
+{% block title %} Orders List {% endblock %}
+
+
+{% load static %}
+{% block content %}
+    <section id="orders">
+        <div class="container">
+            <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Filter Orders
+                    <span class="caret"></span></button>
+                <ul class="dropdown-menu">
+                    <li><a href="{% url 'wash:orders' %}?finished=True">Finished Orders</a></li>
+                    <li><a href="{% url 'wash:orders' %}">Clear Filter</a></li>
+
+                </ul>
+            </div>
+            <div class="section-header">
+                <h2 class="section-title text-center wow fadeInDown">Orders</h2>
+            </div>
+            <a href="{% url 'wash:create_order' %}" class="btn btn-primary btn-lg btn-block background-red">Create
+                Order</a>
+            <br>
+            <br>
+            <div class="row">
+                {% for order in orders %}
+                    <div class="col-md-3 col-sm-6 card-margin">
+                        <a href='{% url 'wash:order_detail' order.id %}'>
+                            <div class="team-member wow fadeInUp" data-wow-duration="400ms" data-wow-delay="0ms">
+                                <div class="team-img">
+                                    <img class="img-responsive"
+                                         src="{% static 'serviceapp/images/prettyPhoto/order.jpeg' %}"
+                                         alt="">
+                                </div>
+                                <div class="team-info">
+                                    <h3>Order N{{ forloop.counter }}</h3>
+                                    <h4>{{ order.price }}GEL</h4>
+                                    <span>Order Detail</span>
+                                    <p>{{ order.start_date }}</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

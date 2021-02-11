@@ -50,6 +50,17 @@ def washer_detail(request: WSGIRequest, pk: int) -> HttpResponse:
     })
 
 
+def orders_list(request: WSGIRequest) -> HttpResponse:
+    # @todo pagination
+    finish_filter = request.GET.get('finished', None)
+    if finish_filter:
+        orders: Order = Order.objects.filter(end_date__isnull=finish_filter).order_by('-start_date')
+    else:
+        orders: Order = Order.objects.filter().order_by('-start_date')
+
+    return render(request, 'pages/orders.html', context={'orders': orders})
+
+
 def order_detail(request: WSGIRequest, pk: int) -> HttpResponse:
     order = get_object_or_404(Order, pk=pk)
 
