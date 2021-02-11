@@ -1,6 +1,7 @@
 from django.core.handlers.wsgi import WSGIRequest
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
+from django.core.paginator import Paginator
 from django.utils import timezone
 from django.db.models import Sum
 
@@ -8,7 +9,7 @@ from .models import Order, Car, WashType
 from user.choices import Status
 from user.models import User
 
-from .forms import OrderForm
+from .forms import OrderForm, CarForm
 
 
 def index(request: WSGIRequest) -> HttpResponse:
@@ -51,12 +52,16 @@ def washer_detail(request: WSGIRequest, pk: int) -> HttpResponse:
 
 
 def orders_list(request: WSGIRequest) -> HttpResponse:
-    # @todo pagination
     finish_filter = request.GET.get('finished', None)
+    page = request.GET.get('page', 1)
+
+    orders: Order = Order.objects.filter().order_by('-start_date').all()
+
     if finish_filter:
-        orders: Order = Order.objects.filter(end_date__isnull=finish_filter).order_by('-start_date')
-    else:
-        orders: Order = Order.objects.filter().order_by('-start_date')
+        orders: Order = Order.objects.filter(end_date__isnull=finish_filter).order_by('-start_date').all()
+
+    paginator = Paginator(orders, 12)
+    orders = paginator.page(page)
 
     return render(request, 'pages/orders.html', context={'orders': orders})
 
@@ -82,3 +87,23 @@ def create_order(request: WSGIRequest) -> HttpResponse:
     return render(request,
                   'pages/order-form.html',
                   context={'form': order_form})
+
+
+def cars_list(request: WSGIRequest) -> HttpResponse:
+    car_list = Car.objects.all()
+
+    page = request.GET.get('page', 1)
+
+    paginator = Paginator(car_list, 12)
+    cars = paginator.page(page)
+
+    car_form = CarForm()
+    message_text = None
+    if request.method == 'POST':
+        car_form = CarForm(request.POST)
+        if car_form.is_valid():
+            car: Car = car_form.save(commit=False)
+            car.save()
+            message_text = f'Car Successfully added!'
+            car_form = CarForm()
+    return render(request, 'pages/cars.html', context={'cars': cars, 'form': car_form, 'message': message_text})

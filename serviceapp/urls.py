@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import index, washer_list, washer_detail, create_order, order_detail, orders_list
+from .views import index, washer_list, washer_detail, create_order, order_detail, orders_list, cars_list
 
 app_name = 'wash'
 urlpatterns = [
@@ -9,4 +9,6 @@ urlpatterns = [
     path('orders', orders_list, name='orders'),
     path('order/create', create_order, name='create_order'),
     path('<int:pk>/order/', order_detail, name='order_detail'),
+    path('cars', cars_list, name='cars'),
+
 ]

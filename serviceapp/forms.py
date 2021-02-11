@@ -3,7 +3,7 @@ from django.core.validators import MaxLengthValidator
 from django import forms
 
 from user.models import User
-from .models import Order, Car, WashType
+from .models import Order, Car, WashType, CarType
 
 from user.choices import Status
 
@@ -24,4 +24,14 @@ class OrderForm(forms.ModelForm):
 
     class Meta:
         model = Order
-        fields = ('car', 'employee', 'wash_type',  'note', 'start_date', 'coupon')
+        fields = ('car', 'employee', 'wash_type', 'note', 'start_date', 'coupon')
+
+
+class CarForm(forms.ModelForm):
+    licence_plate = CharField(widget=forms.TextInput(attrs={'class': 'car-input-fields'}))
+    car_type = ModelChoiceField(empty_label='Choice Car Type',
+                                widget=forms.Select(attrs={'class': 'form-control car-input-fields'}), queryset=CarType.objects.all())
+
+    class Meta:
+        model = Car
+        fields = ('licence_plate', 'car_type')

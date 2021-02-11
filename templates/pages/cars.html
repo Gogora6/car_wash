@@ -1,0 +1,95 @@
+{% extends 'layout.html' %}
+{% block title %} Orders List {% endblock %}
+
+
+{% load static %}
+{% block content %}
+    <section id="orders">
+        <div class="container">
+            <div class="section-header">
+                <br>
+                <br>
+                <h2 class="section-title text-center wow fadeInDown">Cars</h2>
+            </div>
+            <form class="contact100-form validate-form car-form center" action="/cars" method="post">
+                {% csrf_token %}
+                {% if form.errors %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ form.errors }}
+                    </div>
+                {% endif %}
+                {% if message %}
+                    <div class="alert alert-success" role="alert">
+                        {{ message }}
+                    </div>
+                {% endif %}
+                <div class="wrap-input100 validate-input">
+                    <span class="label-input100">Licence Plate</span>
+                    <div>
+                        {{ form.licence_plate }}
+                    </div>
+                    <span class="focus-input100"></span>
+                </div>
+
+                <div class="wrap-input100 input100-select">
+                    <span class="label-input100">Car Type</span>
+                    <div>
+                        {{ form.car_type }}
+                    </div>
+                    <span class="focus-input100"></span>
+                </div>
+                <div class="container-contact100-form-btn">
+                    <div class="wrap-contact100-form-btn">
+                        <div class="contact100-form-bgbtn"></div>
+                        <button class="contact100-form-btn">
+							<span>
+								Add Car
+							</span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+            <hr>
+            <br>
+            <br>
+            <div class="row">
+                {% for car in cars %}
+                    <div class="col-md-3 col-sm-6 card-margin ">
+                        <a href='#'>
+                            <div class="wow fadeInUp car-card" data-wow-duration="400ms" data-wow-delay="0ms">
+                                <div class="text-center">
+                                    <br>
+                                    <h3>{{ car.licence_plate }}</h3>
+                                    <h4>Type: {{ car.car_type }}</h4>
+                                    <br>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+            {% if cars.has_other_pages %}
+                <ul class="pagination">
+                    {% if cars.has_previous %}
+                        <li><a href="?page={{ cars.previous_page_number }}">&laquo;</a></li>
+                    {% else %}
+                        <li class="disabled"><span>&laquo;</span></li>
+                    {% endif %}
+                    {% for i in cars.paginator.page_range %}
+                        {% if cars.number == i %}
+                            <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                        {% else %}
+                            <li><a href="?page={{ i }}">{{ i }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                    {% if cars.has_next %}
+                        <li><a href="?page={{ cars.next_page_number }}">&raquo;</a></li>
+                    {% else %}
+                        <li class="disabled"><span>&raquo;</span></li>
+                    {% endif %}
+                </ul>
+            {% endif %}
+        </div>
+    </section>
+
+{% endblock %}
