@@ -7,6 +7,7 @@
     <section id="orders">
         <div class="container">
             <div class="dropdown">
+                <br>
                 <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Filter Orders
                     <span class="caret"></span></button>
                 <ul class="dropdown-menu">
@@ -26,23 +27,44 @@
                 {% for order in orders %}
                     <div class="col-md-3 col-sm-6 card-margin">
                         <a href='{% url 'wash:order_detail' order.id %}'>
-                            <div class="team-member wow fadeInUp" data-wow-duration="400ms" data-wow-delay="0ms">
+                            <div class="wow fadeInUp" data-wow-duration="400ms" data-wow-delay="0ms">
                                 <div class="team-img">
                                     <img class="img-responsive"
                                          src="{% static 'serviceapp/images/prettyPhoto/order.jpeg' %}"
                                          alt="">
                                 </div>
-                                <div class="team-info">
+                                <div class="text-center">
                                     <h3>Order N{{ forloop.counter }}</h3>
                                     <h4>{{ order.price }}GEL</h4>
+                                    <h6>{{ order.start_date }}</h6>
                                     <span>Order Detail</span>
-                                    <p>{{ order.start_date }}</p>
                                 </div>
                             </div>
                         </a>
                     </div>
                 {% endfor %}
             </div>
+            {% if orders.has_other_pages %}
+                <ul class="pagination">
+                    {% if orders.has_previous %}
+                        <li><a href="?page={{ orders.previous_page_number }}">&laquo;</a></li>
+                    {% else %}
+                        <li class="disabled"><span>&laquo;</span></li>
+                    {% endif %}
+                    {% for i in orders.paginator.page_range %}
+                        {% if orders.number == i %}
+                            <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                        {% else %}
+                            <li><a href="?page={{ i }}">{{ i }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                    {% if orders.has_next %}
+                        <li><a href="?page={{ orders.next_page_number }}">&raquo;</a></li>
+                    {% else %}
+                        <li class="disabled"><span>&raquo;</span></li>
+                    {% endif %}
+                </ul>
+            {% endif %}
         </div>
     </section>
 
