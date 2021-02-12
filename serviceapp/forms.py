@@ -30,7 +30,8 @@ class OrderForm(forms.ModelForm):
 class CarForm(forms.ModelForm):
     licence_plate = CharField(widget=forms.TextInput(attrs={'class': 'car-input-fields'}))
     car_type = ModelChoiceField(empty_label='Choice Car Type',
-                                widget=forms.Select(attrs={'class': 'form-control car-input-fields'}), queryset=CarType.objects.all())
+                                widget=forms.Select(attrs={'class': 'form-control car-input-fields'}),
+                                queryset=CarType.objects.all())
 
     class Meta:
         model = Car

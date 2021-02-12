@@ -1,5 +1,5 @@
 {% extends 'layout.html' %}
-{% block title %} Orders List {% endblock %}
+{% block title %} Cars List {% endblock %}
 
 
 {% load static %}
@@ -68,6 +68,7 @@
                     </div>
                 {% endfor %}
             </div>
+
             {% if cars.has_other_pages %}
                 <ul class="pagination">
                     {% if cars.has_previous %}

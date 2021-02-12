@@ -5,7 +5,7 @@ from django.core.paginator import Paginator
 from django.utils import timezone
 from django.db.models import Sum
 
-from .models import Order, Car, WashType
+from .models import Order, Car
 from user.choices import Status
 from user.models import User
 
