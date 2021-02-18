@@ -52,8 +52,10 @@ class User(AbstractUser):
     email = models.EmailField(_('email address'), unique=True)
     birthdate = models.DateField(verbose_name=_('Birth Date'), )
     image = models.ImageField(verbose_name=_("Image"), upload_to='profiles')
-    salary = models.DecimalField(max_digits=8, decimal_places=2, verbose_name=_('Salary'), help_text='in Lari')
-    share = models.DecimalField(max_digits=8, decimal_places=2, verbose_name=_('Share per wash'), help_text='%')
+    salary = models.DecimalField(max_digits=8, decimal_places=2, verbose_name=_('Salary'), help_text='in Lari',
+                                 blank=True, null=True)
+    share = models.DecimalField(max_digits=8, decimal_places=2, verbose_name=_('Share per wash'), help_text='%',
+                                null=True, blank=True)
     phone_number = models.CharField(max_length=50, verbose_name=_('Phone Number'))
     hire_date = models.DateField()
 
