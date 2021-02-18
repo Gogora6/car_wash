@@ -2,13 +2,9 @@ from django.core.handlers.wsgi import WSGIRequest
 from django.http import HttpResponse
 from django.shortcuts import render
 
+from .choices import Status
 from .forms import CustomUserRegistrationForm
 from .models import User
-from .choices import Status
-
-
-def user_login(request: WSGIRequest) -> HttpResponse:
-    return render(request, 'pages/users/login.html')
 
 
 def user_register(request: WSGIRequest) -> HttpResponse:
