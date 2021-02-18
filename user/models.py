@@ -57,7 +57,7 @@ class User(AbstractUser):
     share = models.DecimalField(max_digits=8, decimal_places=2, verbose_name=_('Share per wash'), help_text='%',
                                 null=True, blank=True)
     phone_number = models.CharField(max_length=50, verbose_name=_('Phone Number'))
-    hire_date = models.DateField()
+    hire_date = models.DateField(auto_now_add=True)
 
     status = models.PositiveSmallIntegerField(choices=Status.choices)
 
