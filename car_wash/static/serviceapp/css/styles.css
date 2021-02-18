@@ -1157,3 +1157,7 @@ img.img-responsive {
     margin: auto;
     padding: 10px;
 }
+
+form input {
+    width: 100%;
+}
