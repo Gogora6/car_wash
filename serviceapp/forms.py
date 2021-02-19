@@ -7,7 +7,7 @@ from .models import Order, Car, WashType, CarType
 
 from user.choices import Status
 
-from .valdators import validate_coupon
+from .validators import validate_coupon
 
 
 class OrderForm(forms.ModelForm):
