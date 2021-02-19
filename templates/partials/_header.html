@@ -20,10 +20,22 @@
                     <li><a href="{% url 'wash:index' %}">Home</a></li>
                     <li><a href="{% url 'wash:index' %}">Our Service</a></li>
                     <li><a href="{% url 'wash:index' %}">About Us</a></li>
-                    <li><a href="{% url 'wash:washers' %}">Washers</a></li>
-                    <li><a href="{% url 'wash:orders' %}">Orders</a></li>
-                    <li><a href="{% url 'wash:cars' %}">Cars</a></li>
-                    <li><a href="{% url 'wash:index' %}">Contact</a></li>
+                    {% if user.is_authenticated %}
+                        <li><a href="{% url 'wash:washers' %}">Washers</a></li>
+                        <li><a href="{% url 'wash:orders' %}">Orders</a></li>
+                        <li><a href="{% url 'wash:cars' %}">Cars</a></li>
+                        <li><a>
+                            <form action="{% url 'user:user_logout' %}" method="POST">
+                                {% csrf_token %}
+                                <button type="submit" name="action">Logout</button>
+                            </form>
+
+                        </a></li>
+                    {% else %}
+                        <li><a href="{% url 'user:user_login' %}">Login</a></li>
+                        <li><a href="{% url 'user:user_register' %}">Register</a></li>
+                    {% endif %}
+
                 </ul>
             </div>
         </div>

@@ -105,6 +105,9 @@ STATICFILES_DIRS = [
     'car_wash/static',
 ]
 
-
 MEDIA_ROOT = 'media'
 MEDIA_URL = '/media/'
+
+LOGIN_URL = 'user:user_login'
+LOGOUT_REDIRECT_URL = 'user:user_login'
+LOGIN_REDIRECT_URL = ''

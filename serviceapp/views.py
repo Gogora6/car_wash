@@ -1,7 +1,8 @@
-from django.core.handlers.wsgi import WSGIRequest
-from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
+from django.core.handlers.wsgi import WSGIRequest
 from django.core.paginator import Paginator
+from django.http import HttpResponse
 from django.utils import timezone
 from django.db.models import Sum
 
@@ -16,6 +17,7 @@ def index(request: WSGIRequest) -> HttpResponse:
     return render(request, template_name='pages/index.html')
 
 
+@login_required(redirect_field_name='redirectPage')
 def washer_list(request: WSGIRequest) -> HttpResponse:
     washers = User.objects.filter(status=Status.washer).all()
 
@@ -25,6 +27,7 @@ def washer_list(request: WSGIRequest) -> HttpResponse:
                   })
 
 
+@login_required(redirect_field_name='redirectPage')
 def washer_detail(request: WSGIRequest, pk: int) -> HttpResponse:
     washer = get_object_or_404(User.objects.filter(status=Status.washer.value), pk=pk)
 
@@ -51,6 +54,7 @@ def washer_detail(request: WSGIRequest, pk: int) -> HttpResponse:
     })
 
 
+@login_required(redirect_field_name='redirectPage')
 def orders_list(request: WSGIRequest) -> HttpResponse:
     finish_filter = request.GET.get('finished', None)
     page = request.GET.get('page', 1)
@@ -66,6 +70,7 @@ def orders_list(request: WSGIRequest) -> HttpResponse:
     return render(request, 'pages/orders.html', context={'orders': orders})
 
 
+@login_required(redirect_field_name='redirectPage')
 def order_detail(request: WSGIRequest, pk: int) -> HttpResponse:
     order = get_object_or_404(Order, pk=pk)
 
@@ -74,6 +79,7 @@ def order_detail(request: WSGIRequest, pk: int) -> HttpResponse:
     })
 
 
+@login_required(redirect_field_name='redirectPage')
 def create_order(request: WSGIRequest) -> HttpResponse:
     order_form = OrderForm()
     if request.method == 'POST':
@@ -89,6 +95,7 @@ def create_order(request: WSGIRequest) -> HttpResponse:
                   context={'form': order_form})
 
 
+@login_required(redirect_field_name='redirectPage')
 def cars_list(request: WSGIRequest) -> HttpResponse:
     car_list = Car.objects.all()
 

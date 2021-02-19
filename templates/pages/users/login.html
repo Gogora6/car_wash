@@ -1,0 +1,55 @@
+{% extends 'layout.html' %}
+{% block title %} Login Page{% endblock %}
+
+{% block content %}
+    <div class="wrap-contact100 center">
+        <form class="contact100-form validate-form" action="{% url 'user:user_login' %}" method="post"
+              enctype="multipart/form-data">
+            {% csrf_token %}
+            {% if request.GET.redirectPage %}
+                <input type="hidden" name="redirectPage" value="{{ request.GET.redirectPage }}">
+            {% endif %}
+            <br>
+            <span class="contact100-form-title">
+					Login
+				</span>
+            {% if form.errors %}
+                <div class="alert alert-danger" role="alert">
+                    {% for error, error_text in form.errors.items %}
+                        <p class="error">{{ error_text }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            <div class="wrap-input100 input100-select">
+                <span class="label-input100">Email</span>
+                <div>
+                    {{ form.username }}
+                </div>
+                <span class="focus-input100"></span>
+            </div>
+
+            <div class="wrap-input100 input100-select">
+                <span class="label-input100">Password</span>
+                <div>
+                    {{ form.password }}
+                </div>
+                <span class="focus-input100"></span>
+            </div>
+            <div class="container-contact100-form-btn">
+                <div class="wrap-contact100-form-btn">
+                    <div class="contact100-form-bgbtn"></div>
+                    <button class="contact100-form-btn background-red">
+							<span>
+								Login
+							</span>
+                    </button>
+                </div>
+            </div>
+        </form>
+        <br>
+        <h4><a href="{% url "user:user_register" %}">Create an account</a></h4>
+        <a href="{% url "user:user_register" %}">Forgot your password?</a>
+    </div>
+
+
+{% endblock %}
