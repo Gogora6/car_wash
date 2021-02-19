@@ -25,16 +25,16 @@
                         <li><a href="{% url 'wash:orders' %}">Orders</a></li>
                         <li><a href="{% url 'wash:cars' %}">Cars</a></li>
 
-                        <li><a href="{% url 'user:user_dashboard' %}">Profile</a></li>
+                        <li><a href="{% url 'user:dashboard' %}">Profile</a></li>
                         <li><a>
-                            <form action="{% url 'user:user_logout' %}" method="POST">
+                            <form action="{% url 'user:logout' %}" method="POST">
                                 {% csrf_token %}
                                 <button type="submit" name="action">Logout</button>
                             </form>
                         </a></li>
                     {% else %}
-                        <li><a href="{% url 'user:user_login' %}">Login</a></li>
-                        <li><a href="{% url 'user:user_register' %}">Register</a></li>
+                        <li><a href="{% url 'user:login' %}">Login</a></li>
+                        <li><a href="{% url 'user:register' %}">Register</a></li>
                     {% endif %}
 
                 </ul>

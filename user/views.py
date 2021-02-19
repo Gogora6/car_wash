@@ -14,7 +14,7 @@ from .choices import Status
 
 def user_login(request: WSGIRequest) -> HttpResponse:
     if request.user.is_authenticated:
-        return redirect('wash:index')
+        return redirect('user:dashboard')
     login_form = AuthenticationForm()
     if request.method == 'POST':
         login_form = AuthenticationForm(request=request, data=request.POST)
@@ -24,7 +24,7 @@ def user_login(request: WSGIRequest) -> HttpResponse:
             if redirect_page_path:
                 return redirect(redirect_page_path)
 
-            return redirect('user:user_dashboard')
+            return redirect('user:dashboard')
 
     return render(request, 'pages/users/login.html', context={'form': login_form})
 
@@ -37,6 +37,8 @@ def user_logout(request: WSGIRequest) -> HttpResponse:
 
 
 def user_register(request: WSGIRequest) -> HttpResponse:
+    if request.user.is_authenticated:
+        return redirect('user:dashboard')
     registration_form = CustomUserRegistrationForm()
     if request.method == 'POST':
         registration_form = CustomUserRegistrationForm(request.POST, files=request.FILES)

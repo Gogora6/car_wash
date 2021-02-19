@@ -3,7 +3,7 @@
 
 {% block content %}
     <div class="wrap-contact100 center">
-        <form class="contact100-form validate-form" action="{% url 'user:user_login' %}" method="post"
+        <form class="contact100-form validate-form" action="{% url 'user:login' %}" method="post"
               enctype="multipart/form-data">
             {% csrf_token %}
             {% if request.GET.redirectPage %}
@@ -54,8 +54,8 @@
             </div>
         </form>
         <br>
-        <h4><a href="{% url "user:user_register" %}">Create an account</a></h4>
-        <a href="{% url "user:user_register" %}">Forgot your password?</a>
+        <h4><a href="{% url "user:register" %}">Create an account</a></h4>
+        <a href="{% url "user:register" %}">Forgot your password?</a>
     </div>
 
 

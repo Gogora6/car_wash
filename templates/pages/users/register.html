@@ -3,7 +3,7 @@
 
 {% block content %}
     <div class="wrap-contact100 center">
-        <form class="contact100-form validate-form" action="{% url 'user:user_register' %}" method="post"
+        <form class="contact100-form validate-form" action="{% url 'user:register' %}" method="post"
               enctype="multipart/form-data">
             {% csrf_token %}
             <span class="contact100-form-title">
