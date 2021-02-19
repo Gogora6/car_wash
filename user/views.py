@@ -1,8 +1,9 @@
-from django.contrib.auth import login, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.core.handlers.wsgi import WSGIRequest
-from django.http import HttpResponse
+from django.contrib.auth import login, logout
 from django.shortcuts import render, redirect
+from django.http import HttpResponse
 from django.conf import settings
 
 from .forms import CustomUserRegistrationForm
@@ -22,7 +23,7 @@ def user_login(request: WSGIRequest) -> HttpResponse:
             if redirect_page_path:
                 return redirect(redirect_page_path)
 
-            return redirect('wash:index')
+            return redirect('user:user_dashboard')
 
     return render(request, 'pages/users/login.html', context={'form': login_form})
 
@@ -44,3 +45,8 @@ def user_register(request: WSGIRequest) -> HttpResponse:
             user.save()
             return redirect('user:user_login')
     return render(request, 'pages/users/register.html', context={'form': registration_form})
+
+
+@login_required(redirect_field_name='redirectPage')
+def user_dashboard(request: WSGIRequest) -> HttpResponse:
+    return render(request, 'pages/users/dashboard.html')

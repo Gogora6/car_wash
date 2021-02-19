@@ -1,0 +1,75 @@
+{% extends 'layout.html' %}
+{% block title %} Dashboard{% endblock %}
+
+{% block content %}
+
+    <div class="container center">
+        <div class="row">
+            <div class="col-md-7 ">
+
+                <div class="panel panel-default">
+                    <div class="panel-heading"><h4>User Profile</h4></div>
+                    <div class="panel-body">
+                        <div class="box box-info">
+
+                            <div class="box-body">
+                                <div class="col-sm-6">
+                                    <div align="center"><img alt="User Pic"
+                                                             src="{{ user.image.url }}"
+                                                             id="profile-image1" class="img-circle img-responsive">
+
+                                        <input id="profile-image-upload" class="hidden" type="file">
+                                    </div>
+                                    <br>
+                                </div>
+                                <div class="col-sm-6">
+                                    <h4 style="color:#00b1b1;">{{ user.first_name }} {{ user.last_name }} </h4></span>
+                                    <span><p>Customer</p></span>
+                                </div>
+                                <div class="clearfix"></div>
+                                <hr style="margin:5px 0 5px 0;">
+                                <br>
+                                <div class="col-sm-5 col-xs-6 tital ">First Name:</div>
+                                <div class="col-sm-7 col-xs-6 ">{{ user.first_name }}</div>
+                                <div class="clearfix"></div>
+                                <div class="bot-border"></div>
+
+
+                                <div class="col-sm-5 col-xs-6 tital ">Last Name:</div>
+                                <div class="col-sm-7">{{ user.last_name }}</div>
+                                <div class="clearfix"></div>
+                                <div class="bot-border"></div>
+
+                                <div class="col-sm-5 col-xs-6 tital ">Email</div>
+                                <div class="col-sm-7">{{ user.email }}</div>
+
+                                <div class="clearfix"></div>
+                                <div class="bot-border"></div>
+
+                                <div class="col-sm-5 col-xs-6 tital ">Phone Number</div>
+                                <div class="col-sm-7">{{ user.phone_number }}</div>
+
+                                <div class="clearfix"></div>
+                                <div class="bot-border"></div>
+
+                                <div class="col-sm-5 col-xs-6 tital ">Date Of Birth:</div>
+                                <div class="col-sm-7">{{ user.birthdate }}</div>
+
+                                <div class="clearfix"></div>
+                                <div class="bot-border"></div>
+
+                                <div class="col-sm-5 col-xs-6 tital ">Age:</div>
+                                <div class="col-sm-7">{{ user.get_age }} Years</div>
+
+                                <div class="clearfix"></div>
+                                <div class="bot-border"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+{% endblock %}
