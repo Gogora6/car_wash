@@ -5,7 +5,7 @@
 
     <div class="container center">
         <div class="row">
-            <div class="col-md-7 ">
+            <div class="col-md-6">
 
                 <div class="panel panel-default">
                     <div class="panel-heading"><h4>User Profile</h4></div>
@@ -69,7 +69,74 @@
                 </div>
             </div>
 
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading"><h4>Change password</h4></div>
+                    <div class="panel-body">
+                        <div class="box box-info">
+                            <form class="contact100-form validate-form" action="{% url 'user:user_dashboard' %}"
+                                  method="post"
+                                  enctype="multipart/form-data">
+                                {% csrf_token %}
+                                {% if request.GET.redirectPage %}
+                                    <input type="hidden" name="redirectPage" value="{{ request.GET.redirectPage }}">
+                                {% endif %}
+                                <br>
+                                {% if form.errors %}
+                                    <div class="alert alert-danger" role="alert">
+                                        {% for error, error_text in form.errors.items %}
+                                            <p class="error">{{ error_text }}</p>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                                {% if messages %}
+                                    <div class="alert alert-success" role="alert">
+                                        {% for message in messages %}
+                                            <p>{{ message }}</p>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                                <div class="wrap-input100 input100-select">
+                                    <span class="label-input100">Old Password</span>
+                                    <div>
+                                        {{ form.old_password }}
+                                    </div>
+                                    <span class="focus-input100"></span>
+                                </div>
+                                <div class="wrap-input100 input100-select">
+                                    <span class="label-input100">New Password</span>
+                                    <div>
+                                        {{ form.new_password1 }}
+
+                                    </div>
+                                    <span class="focus-input100"></span>
+                                </div>
+
+                                <div class="wrap-input100 input100-select">
+                                    <span class="label-input100">Confirm New Password</span>
+                                    <div>
+                                        {{ form.new_password2 }}
+
+                                    </div>
+                                    <span class="focus-input100"></span>
+                                </div>
+                                <div class="container-contact100-form-btn">
+                                    <div class="wrap-contact100-form-btn">
+                                        <div class="contact100-form-bgbtn"></div>
+                                        <button class="contact100-form-btn background-red">
+                                            <span>
+                                                Change password
+                                            </span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+    </div>
     </div>
 
 {% endblock %}

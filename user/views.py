@@ -1,8 +1,9 @@
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm, SetPasswordForm
 from django.core.handlers.wsgi import WSGIRequest
 from django.contrib.auth import login, logout
 from django.shortcuts import render, redirect
+from django.contrib import messages
 from django.http import HttpResponse
 from django.conf import settings
 
@@ -43,10 +44,19 @@ def user_register(request: WSGIRequest) -> HttpResponse:
             user: User = registration_form.save(commit=False)
             user.status = Status.customer
             user.save()
+            messages.success(request, 'Registration completed successfully!')
+
             return redirect('user:user_login')
     return render(request, 'pages/users/register.html', context={'form': registration_form})
 
 
 @login_required(redirect_field_name='redirectPage')
 def user_dashboard(request: WSGIRequest) -> HttpResponse:
-    return render(request, 'pages/users/dashboard.html')
+    password_change_form = PasswordChangeForm(user=request.user)
+    if request.method == 'POST':
+        password_change_form = PasswordChangeForm(user=request.user, data=request.POST)
+        if password_change_form.is_valid():
+            password_change_form.save()
+            messages.success(request, 'Password successfully changed.')
+
+    return render(request, 'pages/users/dashboard.html', context={'form': password_change_form})
